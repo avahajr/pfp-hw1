@@ -1,8 +1,11 @@
+import qualified GHC.TypeLits as time
 {-
  Name: Ava Hajratwala
  Uni: ash2261
  Collaborators:
  References:
+ -- https://wiki.haskell.org/Lambda_abstraction
+ -- I owe everything to LYAH
  ------------------------------
  COMS 4995 001 Parallel Function Programming
  Homework 1
@@ -111,9 +114,11 @@ maxrun (x:xs) = maxrun' xs x 1 1
       Example:
       *Main> take 10 pell
       [0,1,2,5,12,29,70,169,408,985]
--}
-pell :: [Integer]
-pell = [0,1,2] -- Change this
+-} 
+pell :: [Integer] 
+pell = 0 : 1 : zipWith (\a b -> 2 * b + a) pell (tail pell)
+
+
 {- 5) Use the list of Pell numbers to construct a list of successive
       approximations to the square root of 2, that
       is, a compute a list derived from the Pell numbers whose entries are
@@ -130,7 +135,12 @@ pell = [0,1,2] -- Change this
      [1.0,1.5,1.4,1.4166666666666667,1.4137931034482758,1.4142857142857144]
 -}
 sqrt2 :: [Double]
-sqrt2 = [] -- Change this
+sqrt2 = zipWith (\p1 p2 -> (p1+p2)/p2) pell' (tail pell')
+      where pell' = map fromIntegral pell
+-- tail returns everything but the head, zipping with the original list creates an 
+-- 'offset' which allows us to reference both n and n-1 elements at the same time.
+
+
 {- 6) Write a digsum function that reports the sum of the digits of
       an integer.  Negative inputs should report a negative sum.
       Use the quotRem function, which is defined for the Integral type class,
@@ -152,6 +162,7 @@ sqrt2 = [] -- Change this
 -}
 digsum :: Integral a => a -> a
 digsum _ = 0 -- Change this
+
 {- 7) Generate the rows of Pascal's triangle as an infinite list of lists.
       Hint: use zipWith, tail, and list comprenensions.  As an intermediate
       step, try writing a function that takes one line of the triangle

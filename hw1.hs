@@ -1,4 +1,3 @@
-import qualified GHC.TypeLits as time
 {-
  Name: Ava Hajratwala
  Uni: ash2261
@@ -161,8 +160,12 @@ sqrt2 = zipWith (\p1 p2 -> (p1+p2)/p2) pell' (tail pell')
       2
 -}
 digsum :: Integral a => a -> a
-digsum _ = 0 -- Change this
-
+digsum x 
+      | x == 0 = 0
+      | x > 0 = let (q,r) = quotRem x 10 in r + digsum q
+      | otherwise = let (q,r) = negateTuple (quotRem x 10) in r + digsum q
+            where negateTuple (m,n) = (negate (abs m), negate (abs n))
+     
 {- 7) Generate the rows of Pascal's triangle as an infinite list of lists.
       Hint: use zipWith, tail, and list comprenensions.  As an intermediate
       step, try writing a function that takes one line of the triangle
@@ -172,5 +175,6 @@ digsum _ = 0 -- Change this
     [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1],[1,5,10,10,5,1],[1,6,15,20,15,6,1]]
     
 -}
+
 pascal :: Num a => [[a]]
 pascal = [] -- Change this

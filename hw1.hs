@@ -177,4 +177,6 @@ digsum x
 -}
 
 pascal :: Num a => [[a]]
-pascal = [] -- Change this
+pascal = [1] : map nextRow pascal
+      where
+       nextRow row = 1 : zipWith (+) row (tail row) ++ [1]
